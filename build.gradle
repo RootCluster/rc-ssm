@@ -1,0 +1,103 @@
+group 'com.incoder'
+version '1.0-SNAPSHOT'
+
+/*
+ * Copyright (C) 2018 Jerry xu Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+//添加所有项目的共享配置
+subprojects {
+
+    //添加插件
+    apply plugin: 'java'
+
+    //编码环境jdk版本
+    sourceCompatibility = 1.8
+    //编译时jdk版本
+    targetCompatibility = 1.8
+
+    //仓库的配置
+    repositories {
+        // 配置私服
+//        maven { url "http://127.0.0.1:8888/nexus/content/groups/public/" }
+        // maven中央仓库
+        mavenCentral()
+    }
+
+    // 配置外部属性
+    ext {
+        spring_version = "5.0.3.RELEASE"
+    }
+
+    // 依赖的配置
+    dependencies {
+        //    和Maven类似，gradle导入依赖包也可以定义其作用的生命周期：
+        //    compile：编译时必须。
+        //    runtime：运行时必须，包括编译时。
+        //    testCompile：测试编译时必须。
+        //    testRuntime：测试运行时必须，包括编译时。
+        //    注：此外配置依赖包，还可以模块化配置、导入list、配置是否传递等。
+
+        //单元测试
+        testCompile "junit:junit:4.12"
+        // servlet依赖
+        compile "javax.servlet:javax.servlet-api:4.0.0"
+        // 公共资源包
+        compile "commons-logging:commons-logging:1.2"
+        compile "commons-beanutils:commons-beanutils:1.9.3"
+        compile "org.apache.commons:commons-pool2:2.5.0"
+        compile "org.apache.commons:commons-dbcp2:2.2.0"
+//        compile "org.apache.commons:commons-collections4:4.1"
+
+        // 文件上传
+//        compile "commons-fileupload:commons-fileupload:1.3.1"
+//        compile "commons-io:commons-io:2.4"
+
+        // AspectJ（切点表达式）
+//        compile "org.aspectj:aspectjrt:1.8.13"
+//        compile "org.aspectj:aspectjweaver:1.8.13"
+
+        //springmvc + Spring Configuration
+        compile "org.springframework:spring-web:$spring_version"
+        compile "org.springframework:spring-webmvc:$spring_version"
+        compile "org.springframework:spring-aop:$spring_version"
+        compile "org.springframework:spring-aspects:$spring_version"
+        compile "org.springframework:spring-beans:$spring_version"
+        compile "org.springframework:spring-context:$spring_version"
+        compile "org.springframework:spring-context-support:$spring_version"
+        compile "org.springframework:spring-core:$spring_version"
+        compile "org.springframework:spring-expression:$spring_version"
+        compile "org.springframework:spring-jdbc:$spring_version"
+        compile "org.springframework:spring-messaging:$spring_version"
+        compile "org.springframework:spring-orm:$spring_version"
+        compile "org.springframework:spring-tx:$spring_version"
+        compile "org.springframework:spring-test:$spring_version"
+
+        // mybatis
+        compile "org.mybatis:mybatis:3.4.5"
+        // mybatis spring 插件
+        compile "org.mybatis:mybatis-spring:1.3.1"
+        compile "org.mybatis.generator:mybatis-generator-maven-plugin:1.3.6"
+        // 数据库驱动
+        compile "mysql:mysql-connector-java:8.0.8-dmr"
+        // 连接池
+        compile "com.alibaba:druid:1.1.6"
+        // json
+        compile "com.google.code.gson:gson:2.8.2"
+        // log4j
+        compile "org.apache.logging.log4j:log4j-core:2.10.0"
+    }
+
+}
