@@ -29,6 +29,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -146,9 +147,59 @@ public class EmployeeController {
         return BaseResponse.success().add("emp", employee);
     }
 
-    @RequestMapping(value = "/emp/{id}", method = RequestMethod.PUT)
+    /**
+     * 根据用户提交对象信息更新用户信息
+     * 注意：ajax=PUT 发送请求（客户端）
+     * employee是有数据传入，但接收的employee对象中除了empId，其他信息都是null
+     * 接收的employee对象无法封装，造成mapper中的SQL脚本错误
+     * 原因：Tomcat
+     * 1.将请求体中的数据，封装成一个map
+     * 2.request.getParameter("")就会从这个map中取值
+     * 3.springMVC封装POJO对象时，会把POJO中的属性的值，request.getParameter("")
+     * <p>
+     * AJAX发送PUT请求
+     * PUT请求，请求体中的数据，request.getParameter("")获取不到
+     * Tomcat不会封装PUT的请求，只有POST形式的请求才会封装请求体为map
+     * <p>
+     * Tomcat源码：org.apache.catalina.connector.Request.parseParameters()【limeNumber:3215(Tomcat 8.5.31)】
+     * if( !getConnector().isParseBodyMethod(getMethod()) ) {
+     * success = true;
+     * return;
+     * }
+     * org.apache.catalina.connector.Connector.isParseBodyMethod()【lineNumber:516(Tomcat 8.5.31)】
+     * protected String parseBodyMethods = "POST";【lineNumber:208(Tomcat 8.5.31)】
+     *
+     * @param employee 用户对象信息
+     * @return 修改结果
+     */
+    @ResponseBody
+    @RequestMapping(value = "/emp/{empId}", method = RequestMethod.PUT)
     public BaseResponse updateEmp(Employee employee) {
         employeeService.updateEmp(employee);
+        return BaseResponse.success();
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param ids 用户id集合
+     * @return
+     */
+
+    @ResponseBody
+    @RequestMapping(value = "/emp/{ids}", method = RequestMethod.DELETE)
+    public BaseResponse deleteEmp(@PathVariable("ids") String ids) {
+        if (ids.contains("-")) {
+            List<Integer> deleteIds = new ArrayList<Integer>();
+            String[] strIds = ids.split("-");
+            for (String strId : strIds) {
+                deleteIds.add(Integer.parseInt(strId));
+            }
+            employeeService.deleteBatch(deleteIds);
+        } else {
+            Integer id = Integer.parseInt(ids);
+            employeeService.deleteEmpById(id);
+        }
         return BaseResponse.success();
     }
 

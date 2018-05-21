@@ -22,6 +22,6 @@
 	<!-- 标准配置 -->
 	<!-- 将springmvc不能处理的请求交给tomcat -->
 	<mvc:default-servlet-handler/>
-	<!-- 支持pringmvc高级功能，JSR303校验，快捷的ajax...映射动态请求 -->
+	<!-- 支持springmvc高级功能，JSR303校验，快捷的ajax...映射动态请求 -->
 	<mvc:annotation-driven/>
 </beans>
