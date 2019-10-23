@@ -35,8 +35,8 @@
     %>
     <!-- 引入样式 -->
     <script type="text/javascript" src="${PROJECT_PATH}/static/js/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="${PROJECT_PATH}static/css/bootstrap.min.css">
-    <script type="text/javascript" src="${PROJECT_PATH}static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="${PROJECT_PATH}/static/css/bootstrap.min.css">
+    <script type="text/javascript" src="${PROJECT_PATH}/static/js/bootstrap.min.js"></script>
 </head>
 <body>
 <%--新增用户弹窗--%>
